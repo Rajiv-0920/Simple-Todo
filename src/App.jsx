@@ -1,3 +1,4 @@
+import ClearAllButton from "./components/ClearAllButton";
 import Filter from "./components/Filter";
 import Form from "./components/Form";
 import Header from "./components/Header";
@@ -15,10 +16,22 @@ const App = () => (
           <Form />
         </div>
       </div>
-      <div className="mt-8 md:mt-0 md:h-[calc(100vh-4rem)] md:flex md:flex-col">
-        <div className="flex-grow overflow-y-auto pr-2">
-          <Filter />
-          <TodoList />
+      <div className="mt-8 md:mt-0 flex flex-col">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col md:h-[calc(100vh-4rem)]">
+          {/* Fixed Header */}
+          <div className="flex-shrink-0">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+                My Tasks
+              </h2>
+              <ClearAllButton />
+            </div>
+            <Filter />
+          </div>
+          {/* Scrollable List */}
+          <div className="flex-grow overflow-y-auto custom-scrollbar mt-4 pr-2 -mr-4">
+            <TodoList />
+          </div>
         </div>
       </div>
     </div>

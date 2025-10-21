@@ -5,6 +5,7 @@ export const ACTIONS = {
   SET_FILTER: "SET_FILTER",
   UPDATE_TASK: "UPDATE_TASK",
   SET_EDITING_TASK: "SET_EDITING_TASK",
+  CLEAR_ALL_TASKS: "CLEAR_ALL_TASKS",
 };
 
 let savedTasks = [];
@@ -59,6 +60,9 @@ export const todoReducer = (state, { type, payload }) => {
 
     case ACTIONS.SET_FILTER:
       return { ...state, filter: payload.filter };
+
+    case ACTIONS.CLEAR_ALL_TASKS:
+      return todoReducerInitialState;
 
     default:
       return state;
