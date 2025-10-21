@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTodo } from "../context/TodoContext";
 import { v4 as uuidv4 } from "uuid";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Form = () => {
   const { addTask, updateTask, setTaskToEdit, state } = useTodo();
@@ -87,20 +88,24 @@ const Form = () => {
       </div>
       <div className="flex items-center gap-2">
         {isEditing && (
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             type="button"
             onClick={handleCancel}
             className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 font-semibold rounded-lg p-3 w-full hover:bg-gray-300 dark:hover:bg-gray-500 transition-all duration-300"
           >
             Cancel
-          </button>
+          </motion.button>
         )}
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           type="submit"
-          className="bg-blue-600 text-white font-semibold rounded-lg p-3 w-full hover:bg-blue-700 dark:hover:bg-blue-500 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+          className="bg-blue-600 text-white font-semibold rounded-lg p-3 w-full hover:bg-blue-700 dark:hover:bg-blue-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
         >
           {isEditing ? "Update Task" : "Add Task"}
-        </button>
+        </motion.button>
       </div>
     </form>
   );

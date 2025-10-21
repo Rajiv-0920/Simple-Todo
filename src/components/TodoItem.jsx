@@ -1,4 +1,5 @@
 import { useTodo } from "../context/TodoContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 const priorityStyles = {
   high: "bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300",
@@ -17,8 +18,21 @@ const TodoItem = ({ id, completed, text, priority, category }) => {
   const { toggleTask, deleteTask, setTaskToEdit } = useTodo();
   const task = { id, completed, text, priority, category };
 
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+    exit: { x: -100, opacity: 0 },
+  };
+
   return (
-    <li className="p-4 rounded-lg flex items-start justify-between transition-all duration-300 bg-white dark:bg-gray-700/50 shadow-sm hover:shadow-md">
+    <motion.li
+      layout
+      variants={itemVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      className="p-4 rounded-lg flex items-start justify-between transition-colors duration-300 bg-white dark:bg-gray-700/50 shadow-sm hover:shadow-md"
+    >
       <div className="flex items-start space-x-4 flex-grow min-w-0">
         <input
           type="checkbox"
@@ -51,7 +65,9 @@ const TodoItem = ({ id, completed, text, priority, category }) => {
         </div>
       </div>
       <div className="flex items-center pl-4 flex-shrink-0 space-x-2">
-        <button
+        <motion.button
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => setTaskToEdit(task)}
           className="text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
         >
@@ -69,8 +85,10 @@ const TodoItem = ({ id, completed, text, priority, category }) => {
               d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z"
             />
           </svg>
-        </button>
-        <button
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => deleteTask(id)}
           className="text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-500 transition-colors"
         >
@@ -88,9 +106,10 @@ const TodoItem = ({ id, completed, text, priority, category }) => {
               d="M6 18L18 6M6 6l12 12"
             />
           </svg>
-        </button>
+        </motion.button>
       </div>
-    </li>
+    </motion.li>
   );
 };
+
 export default TodoItem;

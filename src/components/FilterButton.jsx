@@ -1,5 +1,9 @@
+import { motion, AnimatePresence } from "framer-motion";
+
 const FilterButton = ({ text, setFilter, active }) => (
-  <button
+  <motion.button
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
     onClick={() => setFilter(text)}
     className={
       active
@@ -8,7 +12,7 @@ const FilterButton = ({ text, setFilter, active }) => (
     }
   >
     {text.charAt(0).toUpperCase() + text.slice(1)}
-  </button>
+  </motion.button>
 );
 
 export default FilterButton;

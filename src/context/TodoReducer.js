@@ -62,7 +62,10 @@ export const todoReducer = (state, { type, payload }) => {
       return { ...state, filter: payload.filter };
 
     case ACTIONS.CLEAR_ALL_TASKS:
-      return todoReducerInitialState;
+      return {
+        ...state,
+        tasks: [],
+      };
 
     default:
       return state;
