@@ -1,32 +1,23 @@
-import React from "react";
 import { useTodo } from "../context/TodoContext";
 import TodoItem from "./TodoItem";
-import Message from "./Message";
 
 const TodoList = () => {
   const { state } = useTodo();
-
-  let message = "No tasks here. Add one above! 🎉";
-  const filteredTodos = () => {
-    if (state.filter === "active") {
-      message = "You're all caught up! No pending tasks.";
-      return state.tasks.filter((task) => !task.completed);
-    }
-    if (state.filter === "completed") {
-      message = "No tasks completed yet. Finish one to see it here!";
-      return state.tasks.filter((task) => task.completed);
-    }
-    return state.tasks;
-  };
-
-  const tasks = filteredTodos();
+  const { tasks, filter } = state;
+  const filteredTodos = tasks.filter((task) => {
+    if (filter === "active") return !task.completed;
+    if (filter === "completed") return task.completed;
+    return true;
+  });
 
   return (
-    <ul id="task-list" className="space-y-3">
-      {tasks.length > 0 ? (
-        tasks.map((task) => <TodoItem key={task.id} {...task} />)
+    <ul className="space-y-3">
+      {filteredTodos.length > 0 ? (
+        filteredTodos.map((task) => <TodoItem key={task.id} {...task} />)
       ) : (
-        <Message message={message} />
+        <p className="text-center text-gray-500 dark:text-gray-400">
+          No tasks here. Add one! 🎉
+        </p>
       )}
     </ul>
   );
