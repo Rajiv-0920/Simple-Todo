@@ -5,7 +5,7 @@ import FilterButton from "./FilterButton";
 const Filter = () => {
   const { state, setFilter } = useTodo();
   return (
-    <div className="flex justify-center space-x-2 mb-4 border-b border-gray-200 dark:border-gray-700 pb-4">
+    <div className="flex fixed justify-center space-x-2 mb-4 border-b border-gray-200 dark:border-gray-700 pb-4">
       <FilterButton
         setFilter={setFilter}
         text="all"

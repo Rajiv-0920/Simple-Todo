@@ -1,24 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTodo } from "../context/TodoContext";
 import { v4 as uuidv4 } from "uuid";
 
 const Form = () => {
+  const { addTask, updateTask, setTaskToEdit, state } = useTodo();
+  const { taskToEdit } = state;
+  const isEditing = taskToEdit !== null;
+
   const [formData, setFormData] = useState({
     text: "",
     priority: "",
     category: "",
   });
   const { text, priority, category } = formData;
-  const { addTask } = useTodo();
+
+  useEffect(() => {
+    if (isEditing) {
+      setFormData({
+        text: taskToEdit.text,
+        priority: taskToEdit.priority,
+        category: taskToEdit.category,
+      });
+    }
+  }, [taskToEdit, isEditing]);
 
   const handleChange = (e) =>
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
+  const handleCancel = () => {
+    setTaskToEdit(null);
+    setFormData({ text: "", priority: "", category: "" });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!text.trim() || !priority || !category) return;
-    addTask({ ...formData, completed: false, id: uuidv4() });
-    setFormData({ text: "", priority, category });
+
+    if (isEditing) {
+      updateTask({ ...taskToEdit, text, priority, category });
+    } else {
+      addTask({ text, priority, category, completed: false, id: uuidv4() });
+    }
+    setFormData({ text: "", priority: "", category: "" });
   };
 
   return (
@@ -62,14 +85,24 @@ const Form = () => {
           <option value="study">Study</option>
         </select>
       </div>
-      <button
-        type="submit"
-        className="bg-blue-600 text-white font-semibold rounded-lg p-3 hover:bg-blue-700 dark:hover:bg-blue-500 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
-      >
-        Add Task
-      </button>
+      <div className="flex items-center gap-2">
+        {isEditing && (
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 font-semibold rounded-lg p-3 w-full hover:bg-gray-300 dark:hover:bg-gray-500 transition-all duration-300"
+          >
+            Cancel
+          </button>
+        )}
+        <button
+          type="submit"
+          className="bg-blue-600 text-white font-semibold rounded-lg p-3 w-full hover:bg-blue-700 dark:hover:bg-blue-500 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+        >
+          {isEditing ? "Update Task" : "Add Task"}
+        </button>
+      </div>
     </form>
   );
 };
-
 export default Form;

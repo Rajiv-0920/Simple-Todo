@@ -27,12 +27,22 @@ export const TodoContextProvider = ({ children }) => {
     dispatch({ type: ACTIONS.SET_FILTER, payload: { filter } });
   };
 
+  const updateTask = (taskData) => {
+    dispatch({ type: ACTIONS.UPDATE_TASK, payload: { task: taskData } });
+  };
+
+  const setTaskToEdit = (task) => {
+    dispatch({ type: ACTIONS.SET_EDITING_TASK, payload: { task } });
+  };
+
   const value = {
     state,
     addTask,
     toggleTask,
     deleteTask,
     setFilter,
+    setTaskToEdit,
+    updateTask,
   };
 
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;

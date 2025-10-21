@@ -3,6 +3,8 @@ export const ACTIONS = {
   DELETE_TASK: "DELETE_TASK",
   TOGGLE_COMPLETE: "TOGGLE_COMPLETE",
   SET_FILTER: "SET_FILTER",
+  UPDATE_TASK: "UPDATE_TASK",
+  SET_EDITING_TASK: "SET_EDITING_TASK",
 };
 
 let savedTasks = [];
@@ -16,6 +18,7 @@ try {
 export const todoReducerInitialState = {
   tasks: savedTasks,
   filter: "all",
+  taskToEdit: null,
 };
 
 export const todoReducer = (state, { type, payload }) => {
@@ -37,6 +40,21 @@ export const todoReducer = (state, { type, payload }) => {
             ? { ...task, completed: !task.completed }
             : task
         ),
+      };
+
+    case ACTIONS.UPDATE_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === payload.task.id ? { ...task, ...payload.task } : task
+        ),
+        taskToEdit: null, // Clear editing state after update
+      };
+
+    case ACTIONS.SET_EDITING_TASK:
+      return {
+        ...state,
+        taskToEdit: payload.task,
       };
 
     case ACTIONS.SET_FILTER:

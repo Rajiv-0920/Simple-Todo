@@ -11,7 +11,7 @@ const TodoList = () => {
   });
 
   return (
-    <ul className="space-y-3">
+    <ul className="space-y-3 mt-20">
       {filteredTodos.length > 0 ? (
         filteredTodos.map((task) => <TodoItem key={task.id} {...task} />)
       ) : (
