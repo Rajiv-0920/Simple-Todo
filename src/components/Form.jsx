@@ -35,7 +35,7 @@ const Form = () => {
     console.log("Adding task:", newTask); // for debugging
 
     addTask(newTask);
-    setFormData(initialState);
+    setFormData((prev) => ({ ...prev, text: "" }));
   };
 
   return (
