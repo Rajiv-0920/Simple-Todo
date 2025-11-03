@@ -30,11 +30,12 @@ const Form = () => {
 
   const handleCancel = () => {
     setTaskToEdit(null)
-    setFormData({ text: '' })
+    setFormData({ ...formData, text: '' })
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    console.log(priority, category, text)
     if (!text.trim() || !priority || !category) return
 
     if (isEditing) {
@@ -42,7 +43,7 @@ const Form = () => {
     } else {
       addTask({ text, priority, category, completed: false, id: uuidv4() })
     }
-    setFormData({ text: '' })
+    setFormData({ ...formData, text: '' })
   }
 
   return (
